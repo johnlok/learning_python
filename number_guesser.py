@@ -2,32 +2,54 @@
 #by john lok
 
 
-#user enters a number from 0 to x, where x is the highest possible number
-  #computer divides x by two and then guesses that. e.g. 50 if the max number is 100
-  #while the number the computer guesses is not the number the user entered...
-    #if the number the computer guesses is lower than number the user entered
-      #add 25 (which is a quarter of x)
-    #else
-      #subtract a quarter of x and guess again
+#Pseudocode for the recursive function to guess the number
+#x = range that the user enters
+#function is initialized with the values of high = x, low = 0
+#recursive_guesser(array of numbers, the number to guess, lowest possible value, highest possible value)
+# mid = (low + high) / 2
+# if mid > number to guess
+#   call recursive_guesser(array of numbers, number to guess, low, mid)
+# elsif mid < number to guess
+#   call recursive_guesser(array of numbers, number to guess, mid, high)
+# else
+#  mid = number to guess!
 
-  #print the guess.
 
-number_to_guess = raw_input("Enter a number for the computer to guess")
-max_range = raw_input("Enter the range that the computer should try in (e.g. 100)")
-guess = None
+number_to_guess = int(raw_input("Enter a number for the computer to guess"))
+max_range = int(raw_input("Enter the range that the computer should try from 0 (e.g. 100)")) #this assumes a positive, natural number
+array_of_numbers = range(max_range + 1)
+# result = None #the computer's eventual guess
 
-def number_guesser(number_to_guess, max_range, guess):
-  if guess == number_to_guess:
-    break
-  elif not guess:
-    guess = max_range / 2
-  elif guess < number_to_guess:
-    guess = guess + guess / 2
-  else
-    guess = guess - guess / 2
+def iterative_number_guesser(number_to_guess, max_range, array_of_numbers):
+  for x in array_of_numbers:
+    if x == number_to_guess: #I tried to compare an integer with a string...
+      print("I've got it, said the iterative function. The number you guessed is " + str(x))
 
-  print(guess)
-  number_guesser(number_to_guess, max_range, guess)
+iterative_number_guesser(number_to_guess, max_range, array_of_numbers)
 
-print("I've got it, said the Computer. The number you guessed is" + str(guess))
+high = max_range
+low = 0
+
+def recursive_number_guesser(array_of_numbers, number_to_guess, low, high):
+  mid = int((low + high) / 2)
+  if array_of_numbers[mid] > number_to_guess:
+    recursive_number_guesser(array_of_numbers, number_to_guess, low, mid)
+  elif array_of_numbers[mid] < number_to_guess:
+    recursive_number_guesser(array_of_numbers, number_to_guess, mid, high)
+  else:
+    print("The recursive function says that the number is " + str(mid) + "!")
+
+recursive_number_guesser(array_of_numbers, number_to_guess, low, high)
+
+#example is 34
+#mid = 50
+#50 > 34, call function with low = 0, high = 50
+#mid = 25
+#25 < 34, call function with low = 25, high = 50
+#mid = 37
+# 37 > 34, call function with low = 25, high = 37
+#mid = 31
+# 31 < 34, call function with low = 31, high = 37
+#mid = 34, 34 is mid.
+
 raw_input("Tap Enter to exit")
