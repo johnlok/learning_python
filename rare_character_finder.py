@@ -1246,8 +1246,6 @@ print frequency_count # defaultdict(<type 'int'>, {'\n': 1223, '!': 6080, '#': 6
 
 rare_characters = list("aeilquty-<")
 
-print rare_characters
-
 decoded_string = ""
 
 for character in messy_string:
