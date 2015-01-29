@@ -17,7 +17,7 @@ import urllib2, re
 root = "http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing="
 branch = ""
 response = None
-nothingRE = re.compile("[0-9]{5}|[0-9]{4}")
+nothingRE = re.compile("[0-9]{5}|[0-9]{4}|[0-9]{3}")
 
 #e.g. http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=12345
 # print follow_the_chain(12345)
@@ -25,13 +25,18 @@ nothingRE = re.compile("[0-9]{5}|[0-9]{4}")
 def follow_the_chain(branch):
   response = urllib2.urlopen(root + str(branch))
   html_to_parse = response.read()
-  branch = re.findall(nothingRE, html_to_parse)
-  if branch:
-    print branch
-    branch = int(branch[0])
-    follow_the_chain(branch)
+  new_url = re.findall(nothingRE, html_to_parse)
+  if len(new_url) > 1:
+    print new_url
+    new_url = int(new_url[1])
+    follow_the_chain(new_url)
+  elif new_url:
+    print new_url
+    new_url = int(new_url[0])
+    follow_the_chain(new_url)
   elif html_to_parse == "Yes. Divide by two and keep going.":
-    follow_the_chain(branch)
+    new_url = branch / 2
+    follow_the_chain(new_url)
   else:
       print html_to_parse
 
